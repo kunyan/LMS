@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .ftl resources in the /WEB-INF/views directory -->
+	<beans:bean name="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<beans:property name="suffix" value=".ftl"/>
+		<beans:property name="viewClass" value="org.yankun.lms.web.view.LMSFreeMarkerView"/>
+		<beans:property name="contentType" value="text/html;charset=utf-8"/>
+	</beans:bean>
+	
+	<beans:bean id="multipartResolver"
+	    class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	
+	    <!-- one of the properties available; the maximum file size in bytes -->
+	    <beans:property name="maxUploadSize" value="100000"/>
+	</beans:bean>
+	
+	<!-- 日期转换绑定  -->
+	<beans:bean id="string2DateConverter" class="org.yankun.lms.common.StringToDateConverter" />
+	
+	<beans:bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+	    <beans:property name="converters">
+	        <beans:list>
+	          <beans:ref local="string2DateConverter" />  
+	        </beans:list>
+	    </beans:property>
+    </beans:bean>
+	
+	<mvc:annotation-driven conversion-service="conversionService" />
+	
+	<!-- 国际化消息绑定  -->
+	<beans:bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<beans:property name="basename" value="WEB-INF/i18n/messages" />
+		<beans:property name="defaultEncoding" value="UTF-8"/>
+	</beans:bean>
+	
+	<!-- 区域解析器,使用Session -->
+	<beans:bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
+	
+	
+	
+	<!-- 主题绑定 -->
+	<beans:bean id="themeSource" class="org.springframework.ui.context.support.ResourceBundleThemeSource">
+		<beans:property name="basenamePrefix" value="theme-" />
+	</beans:bean>
+	
+	
+	
+	<!-- 主题解析器,使用SessionThemeResolver -->
+	<beans:bean name="themeResolver" class="org.springframework.web.servlet.theme.CookieThemeResolver">
+		<beans:property name="defaultThemeName" value="default"/>
+	</beans:bean>
+
+
+	<mvc:interceptors>
+		<!-- 区域语言拦截器  -->
+		<beans:bean id="localeChangeInterceptor"
+		      class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+		    <beans:property name="paramName" value="locale"/>
+		</beans:bean>
+		
+		<!-- 主题拦截器  -->
+		<beans:bean id="themeChangeInterceptor"
+		      class="org.springframework.web.servlet.theme.ThemeChangeInterceptor">
+		    <beans:property name="paramName" value="theme"/>
+		</beans:bean>
+		
+		<!-- 权限拦截器  -->
+		<beans:bean id="permissionInterceptor" class="org.yankun.lms.web.interceptor.PermissionInterceptor"/>
+	</mvc:interceptors>
+	
+	<context:component-scan base-package="org.yankun.lms"/>
+	
+	<mvc:default-servlet-handler/>
+	<mvc:annotation-driven/>
+</beans:beans>
