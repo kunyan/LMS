@@ -17,7 +17,7 @@
 	<!-- Resolves views selected for rendering by @Controllers to .ftl resources in the /WEB-INF/views directory -->
 	<beans:bean name="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
 		<beans:property name="suffix" value=".ftl"/>
-		<beans:property name="viewClass" value="org.yankun.lms.web.view.LMSFreeMarkerView"/>
+		<beans:property name="viewClass" value="com.psychcn.lms.web.view.LMSFreeMarkerView"/>
 		<beans:property name="contentType" value="text/html;charset=utf-8"/>
 	</beans:bean>
 	
@@ -29,7 +29,7 @@
 	</beans:bean>
 	
 	<!-- 日期转换绑定  -->
-	<beans:bean id="string2DateConverter" class="org.yankun.lms.common.StringToDateConverter" />
+	<beans:bean id="string2DateConverter" class="com.psychcn.lms.common.convert.StringToDateConverter" />
 	
 	<beans:bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
 	    <beans:property name="converters">
@@ -55,7 +55,7 @@
 	
 	<!-- 主题绑定 -->
 	<beans:bean id="themeSource" class="org.springframework.ui.context.support.ResourceBundleThemeSource">
-		<beans:property name="basenamePrefix" value="theme-" />
+		<beans:property name="basenamePrefix" value="theme_" />
 	</beans:bean>
 	
 	
@@ -79,11 +79,11 @@
 		    <beans:property name="paramName" value="theme"/>
 		</beans:bean>
 		
-		<!-- 权限拦截器  -->
-		<beans:bean id="permissionInterceptor" class="org.yankun.lms.web.interceptor.PermissionInterceptor"/>
+		<!-- 权限拦截器  
+		<beans:bean id="permissionInterceptor" class="org.yankun.lms.web.interceptor.PermissionInterceptor"/>-->
 	</mvc:interceptors>
 	
-	<context:component-scan base-package="org.yankun.lms"/>
+	<context:component-scan base-package="com.psychcn.lms"/>
 	
 	<mvc:default-servlet-handler/>
 	<mvc:annotation-driven/>

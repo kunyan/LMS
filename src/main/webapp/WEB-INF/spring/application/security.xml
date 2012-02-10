@@ -67,7 +67,7 @@
 	</bean>
 	
 	<!-- authorities对应 CAS server的 登录属性， 在此设置到spirng security中，用于spring security的验证 -->
-	<bean id="authenticationUserDetailsService" class="org.yankun.lms.security.UserDetailsService">
+	<bean id="authenticationUserDetailsService" class="com.psychcn.lms.security.UserDetailsService">
 		<constructor-arg>
 			<array>
 				<value>authorities</value>
