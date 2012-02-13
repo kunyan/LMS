@@ -4,22 +4,24 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.security.cas.authentication.CasAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.yankun.lms.web.controller.HomeController;
+
+import com.psychcn.lms.persistence.core.student.StudentService;
 
 @Controller
 @RequestMapping("/")
 public class ApplicationController {
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
+	@Resource
+	private StudentService studentService;
 	/**
 	 * 首页
 	 * @param request
@@ -29,8 +31,13 @@ public class ApplicationController {
 	@RequestMapping()
 	public ModelAndView index(HttpServletRequest request,HttpServletResponse response,Locale locale, Model model){
 		Map<String,Object> map = new HashMap<String,Object>();
-		logger.info("Hello World");
+		final CasAuthenticationToken token = (CasAuthenticationToken) request.getUserPrincipal();
+		String username = token.getUserDetails().getUsername();
+		
+		Map<String,Object> student = studentService.getStudentByUsername(username);
+		
 		map.put("title", "首页");
+		map.put("student", student);
 		return new ModelAndView("index",map);
 	}
 }

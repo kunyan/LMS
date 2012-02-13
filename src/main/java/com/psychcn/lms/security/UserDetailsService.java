@@ -1,7 +1,6 @@
 package com.psychcn.lms.security;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +19,19 @@ public class UserDetailsService extends AbstractCasAssertionUserDetailsService{
 
     private boolean convertToUpperCase = true;
 
-    public UserDetailsService(final String[] attributes) {
+    public String[] getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(String[] attributes) {
+		this.attributes = attributes;
+	}
+
+	public boolean isConvertToUpperCase() {
+		return convertToUpperCase;
+	}
+
+	public UserDetailsService(final String[] attributes) {
         Assert.notNull(attributes, "attributes cannot be null.");
         Assert.isTrue(attributes.length > 0, "At least one attribute is required to retrieve roles from.");
         this.attributes = attributes;
@@ -30,7 +41,7 @@ public class UserDetailsService extends AbstractCasAssertionUserDetailsService{
     protected UserDetails loadUserDetails(final Assertion assertion) {
         final List<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<SimpleGrantedAuthority>();
 
-        Map attributes = assertion.getPrincipal().getAttributes();
+        Map<?, ?> attributes = assertion.getPrincipal().getAttributes();
 
     	System.out.println(attributes.get("userid"));
     	System.out.println(attributes.get("email"));

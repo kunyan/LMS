@@ -4,6 +4,7 @@
 </#macro>
 
 <#macro main>
-	Hello World
+	${student["username"]?if_exists}
 </#macro>
-	WordNot real
+	${student["email"]?if_exists}
+	${student["sysId"]?if_exists}

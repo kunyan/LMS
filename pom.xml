@@ -84,6 +84,14 @@
 			<version>3.0.7.RELEASE</version>
 		</dependency>
 		
+		<!-- ehcache -->
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>2.5.1</version>
+		</dependency>
+        
+        <!-- freemarker -->
 		<dependency>
 		  <groupId>org.freemarker</groupId>
 		  <artifactId>freemarker</artifactId>
@@ -253,6 +261,16 @@
 		    <url>http://maven.springframework.org/milestone</url>
 		</repository>
 		
+		<repository>
+			<id>sourceforge</id>
+			<url>http://oss.sonatype.org/content/groups/sourceforge/</url>
+			<releases>
+				<enabled>true</enabled>
+		    </releases>
+		    <snapshots>
+				<enabled>true</enabled>
+		    </snapshots>
+		</repository>
 		<repository>
 			<id>JBoss repository</id>
 			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
